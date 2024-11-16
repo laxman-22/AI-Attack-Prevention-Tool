@@ -8,7 +8,9 @@ model = torchvision.models.resnet34(weights=ResNet34_Weights.DEFAULT)
 
 model.eval()
 
-img = Image.open('./tiny-imagenet-200/tiny-imagenet-200/train/n01443537/images/n01443537_0.JPEG').convert('RGB')
+img = Image.open('./tiny-imagenet-200/train/n01443537/images/n01443537_0.JPEG').convert('RGB')
+img.show()
+
 attacked = fgsm(model=model, image=img, label=torch.tensor([23]), epsilon=0.03)
 attacked = Image.fromarray((attacked.squeeze().permute(1, 2, 0).detach().numpy() * 255).astype("uint8"))
 attacked.show()
