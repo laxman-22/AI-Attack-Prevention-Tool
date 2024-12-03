@@ -1,36 +1,29 @@
-from torchvision.transforms import transforms
 import torchattacks
+from torchvision import transforms
 
-transform = transforms.Compose([
-    transforms.Resize(256),
-    transforms.CenterCrop(224),
-    transforms.ToTensor(),
-    transforms.Normalize(
-        mean=[0.485, 0.456, 0.406],
-        std=[0.229, 0.224, 0.225]
-    )
-])
+def preprocess_image(image):
+    preprocess = transforms.Compose([
+        transforms.ToTensor(),  # Convert the image to a tensor
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),  # Normalization
+    ])
+    return preprocess(image).unsqueeze(0)  # Add batch dimension
 
-def fgsm(model, image, epsilon, label):
-    img = transform(image).unsqueeze(0)
+def fgsm(model, images, epsilon, label):
     attack = torchattacks.FGSM(model, eps=epsilon)
-    attacked_img = attack(img, label)
+    attacked_img = attack(images, label)
     return attacked_img
 
-def pgd(model, image, epsilon, alpha, iterations, label):
-    img = transform(image).unsqueeze(0)
+def pgd(model, images, epsilon, alpha, iterations, label):
     attack = torchattacks.PGD(model, eps=epsilon, alpha=alpha, steps=iterations)
-    attacked_img = attack(img, label)
+    attacked_img = attack(images, label)
     return attacked_img
 
-def cw(model, image, label, confidence, learning_rate, iterations):
-    img = transform(image).unsqueeze(0)
+def cw(model, images, label, confidence, learning_rate, iterations):
     attack = torchattacks.CW(model, kappa=confidence, lr=learning_rate, steps=iterations)
-    attacked_img = attack(img, label)
+    attacked_img = attack(images, label)
     return attacked_img
 
-def deep_fool(model, image, label, overshoot, iterations):
-    img = transform(image).unsqueeze(0)
+def deep_fool(model, images, label, overshoot, iterations):
     attack = torchattacks.DeepFool(model, overshoot=overshoot, steps=iterations)
-    attacked_img = attack(img, label)
+    attacked_img = attack(images, label)
     return attacked_img
