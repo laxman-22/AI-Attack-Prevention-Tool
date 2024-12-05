@@ -13,7 +13,6 @@ from torchvision.models.resnet import ResNet34_Weights
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 processed_image_count = 0
 
-
 # Function to monitor GPU utilization
 def monitor_gpu_memory_utilization():
     while True:
@@ -93,7 +92,7 @@ def apply_deep_fool_to_directory(input_dir, output_dir, model, overshoot=0.02, i
                 image_tensor = preprocess_image(image).to(device)
                 image_tensor.requires_grad = True
 
-                # attacked = cw(model=model, images=image_tensor, label=torch.tensor([label]), confidence=random.randint(0, 10), learning_rate=random.uniform(0.001, 0.01), iterations=random.randint(10, 1000))
+                # Uncomment this to adapt for C&W attack and continue for other attacks attacked = cw(model=model, images=image_tensor, label=torch.tensor([label]), confidence=random.randint(0, 10), learning_rate=random.uniform(0.001, 0.01), iterations=random.randint(10, 1000))
                 attacked = deep_fool(model, image_tensor, torch.tensor([label], device=device), overshoot, iterations)
 
                 attacked_img = attacked.squeeze().permute(1, 2, 0).cpu().detach().numpy()
