@@ -3,7 +3,7 @@
 ## Introduction
 This is a website that can detect the most common cyber attacks on Convolutional Neural Networks (CNNs) which are FGSM (Fast Gradient Sign Method), PGD (Projected Gradient Descent), C&amp;W (Carlini &amp; Wagner), DeepFool.
 
-The website can be found [here](https://ai-attack-prevention-tool-website.vercel.app/)
+The website can be found [here](https://ai-attack-prevention-tool-website.vercel.app/) (Note: The server is currently down due to model hosting costs)
 
 The goal of this project was to build a model that can detect if an image supplied to ResNet34 has been attacked and by which method it has been attacked by. For this project the most common attacks were considered (FGSM, PGD, C&W, and DeepFool).
 
